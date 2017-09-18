@@ -6,9 +6,9 @@
 
 
 ## Milestone 1
-Milestone 1 part 1 [GitHub Flavored Markdown](codisordelet.com/m1p1.html).
+ [Milestone 1 part 1](codisordelet.com/m1p1.html).
 
-Milestone 1 part 2 [GitHub Flavored Markdown](codisordelet.com/m1p2.html).
+ [Milestone 1 part 2](codisordelet.com/m1p2.html).
 
 
 
