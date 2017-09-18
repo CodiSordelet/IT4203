@@ -3,8 +3,8 @@
 You can use the [editor on GitHub](https://github.com/CodiSordelet/IT4203/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
 
-Milestone 1
-click here
+#Milestone 1
+Milestone 1 part 1 [GitHub Flavored Markdown](https://google.com).
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
