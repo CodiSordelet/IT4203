@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <title>milestone 1 part 1</title>
+  </head>
+  <style media="screen">
+  body {
+    background-color: gold;
+  }
+  #header {
+    width: 100%;
+    height:5em;
+    background-color: black;
+    color:#fff;
+
+  }
+  h1.myhead {
+    text-align: center;
+    font-family: sans-serif;
+  }
+  .book-listing {
+       background-color: #dce1e8;
+       color: black;
+       position: relative;
+       -webkit-border-radius: .2em;
+       padding: 1em 1em 1em 1em;
+       margin: 5% auto;
+       font-size: 2.5em;
+       position: relative;
+       width: 60%;
+
+   }
+
+   img {
+     width: 30%
+   }
+
+
+  </style>
+
+
+  <body>
+    <div id = "header">
+		<h1 class="myhead">Milestone1 part 1</h1>
+
+		</div>
+    <script type="text/javascript">
+
+    $.getJSON('http://it-ebooks-api.info/v1/search/modern%20web', function(data) {
+    $.each(data.Books, function(){
+      $('</br><div class="book-listing"></div>').append(
+          '<h2>' + this.Title +  ':</h2>' +
+          '<h4>'+ this.SubTitle + '</h4>' +
+          '<div id="books">' + '</br> <img src="' + this.Image + '">' + '</p>' +
+          '<p><b>ID Number:&nbsp;&nbsp;</b>' + this.ID + '</p>' + '<p ><b>ISBN:&nbsp;&nbsp;</b>' + this.isbn + '</p> ' +
+          '<p class="description"><b>Description: </b><em>' + this.Description + '</em></p>' + '</br></div>'
+
+      ).appendTo("body");
+
+    })
+
+
+  });
+    </script>
+
+
+
+
+
+  </body>
+
+</html>
