@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Milestone 2</title>
+    <style media="screen">
+        body {
+            background-color: rgb(247, 194, 69);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .banner {
+            position: fixed;
+            top: 0%;
+            left: 0;
+            right: 0;
+            background-color: rgb(33, 92, 157);
+            z-index: 1000;
+            padding: 3em 3em 3em 3em;
+        }
+
+        #title-text {
+            position: absolute;
+            right: 42%;
+            font-family: sans-serif;
+            color: #fff;
+            margin: 0 auto;
+
+        }
+
+        .secondary-content {
+            position: absolute;
+            left: 15%;
+            right: 15%;
+            top: 20%;
+            bottom: 0%;
+            height: 100%;
+        }
+
+        #searchbar {
+            position: absolute;
+            right: 20%;
+        }
+
+        #details {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/PLRKIF9VCU.jpg);
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+            background-color: yellow;
+            opacity: 50%;
+        }
+
+        #home {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/IM20JJF5IY.jpg);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+        }
+
+        #bookshelf {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/9VIZX4K5GD.jpg);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+        }
+
+        #search {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/KQVVLIZX6I.jpg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+        }
+
+
+        #searchbox {
+          position: absolute;
+          top: 50%;
+          width: 100%;
+          height: 15%;
+          -webkit-border-radius: 8px;
+          -moz-border-radius: 8px;
+          border-radius: 8px;
+          font-size: 8em;
+          background-image: url("https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png");
+          background-repeat: no-repeat;
+          background-position: right top;
+          background-size: 190px 169px;
+        }
+
+        #googlelogo {
+          height:300px;
+          width: 400px;
+          position: absolute;
+          top: 15%;
+          right: 37%;
+        }
+
+        .books {
+            background-color: #f1f1f1;
+            width: 80%;
+            margin: 0 auto;
+            color: #000000;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)!important;
+            font-family: sans-serif;
+            height: 300px;
+            display: none;
+        }
+          .pagebox {
+            display: none;
+            position: absolute;
+            z-index: 2000;
+            top: %;
+            margin: 0 auto;
+            right: 10%;
+            height:60%;
+            width: 50%;
+
+
+          }
+
+          .page1 {
+            display:block;
+          }
+
+          .page2 {
+            display:none ;
+          }
+
+          .page3 {
+            display:none ;
+          }
+
+          .page4 {
+            display:none ;
+          }
+
+
+
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body>
+    <div class="content">
+        <div class="banner">
+            <h1 id="title-text">Google Books Search</h1>
+
+        </div>
+    </div>
+
+
+    </div>
+    <div class="secondary-content">
+
+        <div class="pagebox">
+          <button  id="page1" type="button" name="button">page 1</button>
+          <button  id="page3" type="button" name="button">page 2</button>
+          <button  id="page4" type="button" name="button">page 3</button>
+          </div>
+
+
+      <img  id="googlelogo" src="http://icons.iconarchive.com/icons/marcus-roberto/google-play/512/Google-Play-Books-icon.png"  alt="">
+
+
+            <input id="searchbox" type="text" name="search" placeholder="Title or Author"><br>
+
+
+
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+function newObject(title, image,id ) {
+  this.title = title;
+  this.image = image;
+  this.id =  id;
+
+
+
+
+}
+
+
+function extractJson(url,page) {
+
+
+    // switch(page) {
+    //   case "page1":
+    //     $('.page2, .page3, .page4').hide();
+    //     break;
+    //   case "page2":
+    //     $('.page1, .page3, .page4').hide();
+    //     break;
+    //
+    //   case "page3":
+    //     $('.page1, .page2, .page4').hide();
+    //     break;
+    //   case "page4":
+    //       $('.page1, .page2, .page4').hide();
+    //       break;
+    //
+    //   default:
+    //         "nothing";
+    // }
+
+
+
+    $.getJSON(url, function(data) {
+      let arrayOfObjects =[];
+      let jason = data.items;
+
+      for(var i =0; i < jason.length; i++) {
+
+        let title = jason[i].volumeInfo.title
+        let imageLink =  jason[i].volumeInfo.imageLinks["thumbnail"];
+
+        let ID = jason[i].id;
+
+        arrayOfObjects.push(new newObject(title,imageLink, ID));
+      }
+
+
+
+
+      for(var i=0; i < arrayOfObjects.length; i++) {
+
+        $('.secondary-content').append(
+          "<div class=\"" + "books " + page + " \">" +
+           "<h1>" + arrayOfObjects[i].title  + "</h1>" +
+           "<img  class=\"bookimg\" src=" + arrayOfObjects[i].image + ">" +
+           "<a href=\"details.html?id=" + arrayOfObjects[i].id + "\">Book Details</a>"  +
+           "</div>");
+      }
+
+    });
+
+  $('#googlelogo').hide();
+  $('#searchbox').hide();
+
+}
+
+  $(document).ready(function() {
+
+    $('#page1').click(function() {
+      $('.page2').hide();
+      $('.page3').hide();
+      $('.page4').hide();
+      $('.page1').show();
+    });
+
+  $('#page2').click(function() {
+    $('.page3').hide();
+    $('.page1').hide();
+    $('.page4').hide();
+    $('.page2').show();
+  });
+
+  $('#page3').click(function() {
+    $('.page3').show();
+    $('.page1').hide();
+    $('.page2').hide();
+    $('.page4').hide();
+
+  });
+
+  $('#page4').click(function() {
+    $('.page3').hide();
+    $('.page1').hide();
+    $('.page2').hide();
+    $('.page4').show();
+
+  });
+
+
+
+
+
+
+  $('#searchbox').keypress(function(e){
+
+
+      if(e.which == 13){//Enter key pressed
+          $('#searchbox').click();//Trigger search button click event
+          let search;
+          search = $('#searchbox').val();
+
+          let url = "https://www.googleapis.com/books/v1/volumes?q=search+";
+          let withTerms1 = url + search + "&startIndex=0&maxResults=15";
+          let withTerms2 = url + search + "&startIndex=15&maxResults=15";
+          let withTerms3 = url + search + "&startIndex=30&maxResults=15";
+          let withTerms4 = url + search + "&startIndex=45&maxResults=15";
+
+
+
+            extractJson(withTerms1, "page1");
+            extractJson(withTerms2, "page2");
+            extractJson(withTerms3, "page3");
+            extractJson(withTerms4, "page4");
+
+            $('.pagebox').show();
+
+
+
+      }
+
+
+  });
+
+
+
+
+
+
+
+  });
+</script>
+</body>
+
+</html>
