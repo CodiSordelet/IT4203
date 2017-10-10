@@ -294,24 +294,31 @@ function extractJson(url,page) {
   });
 
 
+
 $('#searchbox').click(function(){
+
   let search;
   search = $('#searchbox').val();
 
+
+
+
+
+if(search !== ""){
   let url = "https://www.googleapis.com/books/v1/volumes?q=search+";
   let withTerms1 = url + search + "&startIndex=0&maxResults=15";
   let withTerms2 = url + search + "&startIndex=15&maxResults=15";
   let withTerms3 = url + search + "&startIndex=30&maxResults=15";
   let withTerms4 = url + search + "&startIndex=45&maxResults=15";
+  console.log(search);
+  extractJson(withTerms1, "page1");
+  extractJson(withTerms2, "page2");
+  extractJson(withTerms3, "page3");
+  extractJson(withTerms4, "page4");
 
+  $('.pagebox').show();
+}
 
-
-    extractJson(withTerms1, "page1");
-    extractJson(withTerms2, "page2");
-    extractJson(withTerms3, "page3");
-    extractJson(withTerms4, "page4");
-
-    $('.pagebox').show();
 
 });
 
