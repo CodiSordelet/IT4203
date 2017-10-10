@@ -29,7 +29,7 @@
                 let subtitle = book.subtitle;
                 let title = book.title;
 
-                let bookHTML = "<img class=\"floated\" src=\"" + image + "\" alt=\"\">" +
+                let bookHTML = "<div class=\"image\"><img class=\"floated\" src=\"" + image + "\" alt=\"\"></div>" +
                     "<div class=\"container\"><h2>" + title + "</h2>" +
                     "<h4>" + subtitle + "</h4>" +
                     "<p class=\"floatright\"> <p> Author: " + authors + "</p>" +
@@ -46,6 +46,9 @@
         });
     </script>
     <style>
+        .image {
+          float:left;
+        }
         body {
             background-color: rgb(247, 194, 69);
             font-family: 'Roboto', sans-serif;
@@ -123,18 +126,13 @@
             position: absolute;
             top: 10%;
             margin-left: 30em;
-            margin-right: 30em;
             width: 60%;
             font-size: 1.3em;
             font-weight: bold;
             height: 60%;
         }
 
-        img {
-          position: absolute;
-          top: 10%;
-          left: 2%
-        }
+
 
     </style>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
