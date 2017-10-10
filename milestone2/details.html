@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My bookshelf</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            let searchParams = new URLSearchParams(window.location.search);
+            let id = searchParams.get("id");
+            let url = "https://www.googleapis.com/books/v1/volumes/"
+            const newURL = url + id;
+            $.getJSON(newURL, function(data) {
+
+
+                let book = data.volumeInfo;
+                let authors = book.authors[0];
+                let categories = book.categories;
+                let description = book.description;
+                let image = book.imageLinks["medium"];
+                let isbn10 = book.industryIdentifiers[0]["identifier"];
+                let isbn13 = book.industryIdentifiers[1]["identifier"];
+                let preview = book.previewLink;
+                let pageCount = book.pageCount;
+                let datePublished = book.publishedDate;
+                let publisher = book.publisher;
+                let subtitle = book.subtitle;
+                let title = book.title;
+
+                let bookHTML = "<img class=\"floated\" src=\"" + image + "\" alt=\"\">" +
+                    "<div class=\"container\"><h2>" + title + "</h2>" +
+                    "<h4>" + subtitle + "</h4>" +
+                    "<p class=\"floatright\"> <p> Author: " + authors + "</p>" +
+                    "<p> Categories: " + categories + "</p>" +
+                    "<p> Description: " + description + "</p>" +
+                    "<p> ISBN-10: " + isbn10 + "</p>" +
+                    "<p> ISBN-13: " + isbn13 + "</p>" +
+                    "<a href=\"" + preview + "\"> Preview This Book Here</a>" +
+                    "<p> Page Count: " + pageCount + "</p>" +
+                    "<p> Date Published: " + datePublished + "</p>" +
+                    "<p> Publisher: " + publisher + "</p></p></div>";
+                $(".secondary-content").append(bookHTML);
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-color: rgb(247, 194, 69);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .banner {
+            position: fixed;
+            top: 0%;
+            left: 0;
+            right: 0;
+            background-color: rgb(33, 92, 157);
+            z-index: 1000;
+            padding: 1em 1em .3em 3em;
+        }
+
+        #title-text {
+            font-family: sans-serif;
+            color: #fff;
+            margin: 0 auto;
+        }
+
+        .secondary-content {
+            position: absolute;
+            left: 5em;
+            right: 5em;
+            top: 5%;
+            min-height: 80%;
+            height: auto;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)!important;
+            padding: 0em 0em 10em 0em;
+            bottom: 0%;
+            min-height: 150%;
+        }
+
+        #searchbar {
+            position: absolute;
+            right: 20%;
+        }
+
+        .books {
+            background-color: #f1f1f1;
+            width: 80%;
+            margin: 0 auto;
+            color: #000000;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)!important;
+            font-family: sans-serif;
+            height: auto;
+        }
+
+        h1.centered {
+            position: relative;
+            left: 45%;
+            align: center;
+            color: #ffffff;
+            font-family: sans-serif;
+        }
+
+        .floated {
+            float: left;
+        }
+
+        .container {
+            background-color: #ffffff;
+            position: absolute;
+            top: 10%;
+            margin-left: 30em;
+            width: 60%;
+            font-size: 1.3em;
+            font-weight: bold;
+            height: auto;
+        }
+
+        img {
+          position: absolute;
+          top: 10%;
+          left: 2%
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+    <div class="banner">
+        <h1 class="centered">Book Details</h1>
+    </div>
+    <div class="secondary-content">
+    </div>
+</body>
+</html>

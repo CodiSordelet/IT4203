@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My bookshelf</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: rgb(247, 194, 69);
+            font-family: 'Roboto', sans-serif;
+        }
+
+         body.span {
+           font-size: 1em;
+           float:right;
+         }
+
+        .banner {
+            position: fixed;
+            top: 0%;
+            left: 0;
+            right: 0;
+            background-color: rgb(33, 92, 157);
+            z-index: 1000;
+            padding: 3em 3em 3em 3em;
+            color: #ffffff;
+        }
+
+        #title-text {
+            font-family: sans-serif;
+            color: #fff;
+            margin: 0 auto;
+        }
+
+        .secondary-content {
+            position: absolute;
+
+            left: 5em;
+            right: 5em;
+            top: 24%;
+            height: auto;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)!important;
+            padding: 0em 0em 10em 0em;
+        }
+
+        #searchbar {
+            position: absolute;
+            right: 20%;
+        }
+
+        #details {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/PLRKIF9VCU.jpg);
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+            background-color: yellow;
+            opacity: 50%;
+        }
+
+        #home {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/IM20JJF5IY.jpg);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+        }
+
+        #bookshelf {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/9VIZX4K5GD.jpg);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+        }
+
+        #search {
+            display: block;
+            background: url(https://cdn.stocksnap.io/img-thumbs/960w/KQVVLIZX6I.jpg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            font-size: 4em;
+            color: #ffffff;
+        }
+
+        .books {
+            background-color: #f1f1f1;
+            width: 80%;
+            margin: 0 auto;
+            color: #000000;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)!important;
+            font-family: sans-serif;
+            height: auto;
+        }
+
+        img {
+          float: left;
+          height: 300px;
+        }
+
+
+
+
+    </style>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<script type="text/javascript">
+    $(document).ready(function() {
+    $.getJSON("https://www.googleapis.com/books/v1/users/117133542904398879136/bookshelves/1001/volumes", function(data) {
+
+        let books = data.items;
+        let booksHTML = [];
+        for (var i = 0; i < books.length; i++) {
+            booksHTML[i] = "<div class=\"books\"> <br>" +
+                "<img  class=\"bookimg\" src=" + books[i].volumeInfo.imageLinks["thumbnail"] + ">" +
+                "<p> <h1 id=\"book-title\">" + books[i].volumeInfo.title + "<h1> <br>" +
+                "<h2 id=\"book-subtitle\">" + books[i].volumeInfo.subtitle + "<h2> <br>" +
+                "<span>Author </span> : <span id=\"book-author\">" + books[i].volumeInfo.authors + "<span> <br>" +
+                "<p>" + books[i].volumeInfo.description + "</p> <br>" +
+                "<span>Publisher </span> - <span id=\"book-author\">" + books[i].volumeInfo.publisher + "<span> <br> " +
+                "<span>ISBN-10 </span> <span id=\"book-author\">" + books[i].volumeInfo.industryIdentifiers[0]["identifier"] + "<span> <br>" +
+                "<span>ISBN-13 </span> - <span id=\"book-author\">" + books[i].volumeInfo.industryIdentifiers[1]["identifier"] + "<span> <br>" +
+                "<span>Number of Pages </span> - <span id=\"book-author\">" + books[i].volumeInfo.pageCount + "<span> <br>" +
+                "<span>Categories</span> - <span id=\"book-author\">" + books[i].volumeInfo.categories + "<span> <br>" +
+                "<a href=\"details.html?id="+ books[i].id + "\">Book Details</a>" +
+                "</p></div>";
+
+                $('.secondary-content').append(booksHTML[i]);
+          }
+
+
+    });
+    });
+</script>
+
+<body>
+
+
+        <div class="banner">
+            <h1 id="title-text">Milestone 2 - bookshelf</h1>
+            <h2>Codi Sordelet</h2>
+            <h3>IT 4203 - Advanced Web Development</h3>
+
+        </div>
+
+        <div class="secondary-content">
+
+        </div>
+
+</body>
+</html>
