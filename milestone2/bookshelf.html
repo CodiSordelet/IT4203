@@ -123,28 +123,10 @@
 </head>
 <script type="text/javascript">
     $(document).ready(function() {
-
-      // $(".banner").hide();
-      //
-      // $(function() {
-      //     $(window).scroll(function() {
-      //         if ($(this).scrollTop() > 50) {
-      //             $('.banner').fadeIn();
-      //         } else {
-      //             $('.banner').fadeOut();
-      //         }
-      //     });
-      // });
-
-
-
     $.getJSON("https://www.googleapis.com/books/v1/users/117133542904398879136/bookshelves/1001/volumes", function(data) {
 
         let books = data.items;
         let booksHTML = [];
-
-
-
         for (var i = 0; i < books.length; i++) {
             booksHTML[i] = "<div class=\"books\"> <br>" +
                 "<img  class=\"bookimg\" src=" + books[i].volumeInfo.imageLinks["thumbnail"] + ">" +
