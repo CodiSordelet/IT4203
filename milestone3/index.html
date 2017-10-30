@@ -113,10 +113,22 @@
                     return price;
                   }
 
+                  var subtitle = function() {
+                    var temp = ""
+                    if(!data.volumeInfo.subtitle ) {
+                     temp = "<h4>" + "" + "</h4>";
+
+                   } else {
+                     temp =  "<h4>" + data.volumeInfo.subtitle + "</h4>";
+                   }
+
+                   return temp;
+                  }
+
 
                     $("#innerModal").append("<img class=\"floated\" src=\"" + data.volumeInfo.imageLinks["medium"] + "\" alt=\"\">" +
                         "<div class=\"container\"><h2>" + data.volumeInfo.title + "</h2>" +
-                        "<h4>" + data.volumeInfo.subtitle + "</h4>" +
+                        subtitle() +
                         "<p class=\"floatright\"> <p> Author: " + data.volumeInfo.authors[0] + "</p>" +
                         "<p> ISBN-10: " + data.volumeInfo.industryIdentifiers[0]["identifier"] + "</p>" +
                         "<p> ISBN-13: " + data.volumeInfo.industryIdentifiers[1]["identifier"] + "</p>" +
