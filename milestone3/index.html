@@ -102,12 +102,15 @@
 
                 $("#innerModal").empty();
                 $.getJSON(url, function(data) {
-                  console.log(data);
-
+                  
                   var sale = function() {
-                    if(data.saleInfo.saleability === "FOR_SALE" || data.saleInfo.listPrice.amount) {
-                      price = data.saleInfo.listPrice.amount + " " + data.saleInfo.listPrice.currencyCode;
-                    } else {
+                    var price = "";
+                    if(data.saleInfo.saleability === "FOR_SALE") {
+                      if(data.saleInfo.listPrice.amount <= 0) price = " ";
+                       else
+                      price = "<p> Price: " +  data.saleInfo.listPrice.amount + " " + data.saleInfo.listPrice.currencyCode;  + "</p>"
+
+                    } else if(data.saleInfo.saleability === null || data.saleInfo.saleability == "undefined") {
                       price = " ";
                     }
                     return price;
@@ -133,7 +136,7 @@
                         "<p> ISBN-10: " + data.volumeInfo.industryIdentifiers[0]["identifier"] + "</p>" +
                         "<p> ISBN-13: " + data.volumeInfo.industryIdentifiers[1]["identifier"] + "</p>" +
                         "<a href=\"" + data.volumeInfo.previewLink + "\"> Preview This Book Here</a>" +
-                        "<p> Price: " + sale()  + "</p>" +
+                         sale()  +
                         "<p> Page Count: " + data.volumeInfo.pageCount + "</p>" +
                         "<p> Date Published: " + data.volumeInfo.publishedDate + "</p>" +
                         "<p> Publisher: " + data.volumeInfo.publisher + "</p></p></div>");
