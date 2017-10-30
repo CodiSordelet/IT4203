@@ -197,35 +197,10 @@ function newObject(title, image,id ) {
   this.image = image;
   this.id =  id;
 
-
-
-
 }
 
 
 function extractJson(url,page) {
-
-
-    // switch(page) {
-    //   case "page1":
-    //     $('.page2, .page3, .page4').hide();
-    //     break;
-    //   case "page2":
-    //     $('.page1, .page3, .page4').hide();
-    //     break;
-    //
-    //   case "page3":
-    //     $('.page1, .page2, .page4').hide();
-    //     break;
-    //   case "page4":
-    //       $('.page1, .page2, .page4').hide();
-    //       break;
-    //
-    //   default:
-    //         "nothing";
-    // }
-
-
 
     $.getJSON(url, function(data) {
       let arrayOfObjects =[];
@@ -240,8 +215,6 @@ function extractJson(url,page) {
 
         arrayOfObjects.push(new newObject(title,imageLink, ID));
       }
-
-
 
 
       for(var i=0; i < arrayOfObjects.length; i++) {
@@ -294,6 +267,7 @@ function extractJson(url,page) {
   });
 
 
+<<<<<<< HEAD
 
 $('#searchbox').click(function(){
 
@@ -324,6 +298,8 @@ if(search !== ""){
 
 
 
+=======
+>>>>>>> master
   $('#searchbox').keypress(function(e){
 
 
@@ -338,28 +314,13 @@ if(search !== ""){
           let withTerms3 = url + search + "&startIndex=30&maxResults=15";
           let withTerms4 = url + search + "&startIndex=45&maxResults=15";
 
-
-
             extractJson(withTerms1, "page1");
             extractJson(withTerms2, "page2");
             extractJson(withTerms3, "page3");
             extractJson(withTerms4, "page4");
-
             $('.pagebox').show();
-
-
-
       }
-
-
   });
-
-
-
-
-
-
-
   });
 </script>
 </body>
