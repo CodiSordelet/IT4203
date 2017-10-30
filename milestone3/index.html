@@ -105,10 +105,10 @@
                   console.log(data);
 
                   var sale = function() {
-                    if(data.saleInfo.saleability === "FOR_SALE" || data.saleInfo.listPrice.amount ) {
+                    if(data.saleInfo.saleability === "FOR_SALE" || data.saleInfo.listPrice.amount) {
                       price = data.saleInfo.listPrice.amount + " " + data.saleInfo.listPrice.currencyCode;
                     } else {
-                      price = "Not For Sale";
+                      price = " ";
                     }
                     return price;
                   }
