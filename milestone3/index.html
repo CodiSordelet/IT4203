@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Google Books Search</title>
+    <link rel="stylesheet" href="./search.css">
+
+
+
+</head>
+
+<body>
+
+    <div class="buttonBox">
+        <button class="purty" id="page1" type="button">1</button>
+        <button class="purty" id="page2" type="button">2</button>
+        <button class="purty" id="page3" type="button">3</button>
+        <button class="purty" id="page4" type="button">4</button>
+        <button class="purty" id="page5" type="button">5</button>
+    </div>
+    <img id="googleImage" src="http://kinlane-productions.s3.amazonaws.com/api-evangelist-site/company/logos/Screen%20Shot%202017-03-16%20at%204.28.26%20PM.png" class="centered" alt="">
+
+    <div class="container">
+        <div id="mybookshelf"></div>
+        <input id="searchbox" type="text" name="search" value="" placeholder="">
+        <button id="searchclick" type="buttton">Search</button>
+        <button id="back" type="button" name="button" id="">Go Back To Search</button>
+        <button class="purty" type="button" name="bookshelfactivator" id="createBookShelfbutton">View My Bookshelf</button>
+
+
+
+    </div>
+    <div class="booksContainer">
+
+
+    </div>
+
+
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div id="innerModal" class="modal-content">
+            <span class="close">&times;</span>
+        </div>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#back").hide();
+            $(".buttonBox").hide();
+
+            $("#back").click(function() {
+                $("#mybookshelf").hide();
+                $("#googleImage").show();
+                $("input#searchbox").show();
+                $("input#searchbox").show();
+                $("#searchclick").show();
+                //buttonBox booksContainer
+                $(".booksContainer").hide();
+                $(".buttonBox").hide();
+                $("#createBookShelfbutton").show();
+                $("#back").hide();
+
+            });
+
+
+            $("#createBookShelfbutton").click(function() {
+
+                var url = "https://www.googleapis.com/books/v1/users/114745723588033378738/bookshelves/0/volumes";
+                $.getJSON(url, function(data) {
+                    var json = data;
+                    var html = "";
+
+                    for (var i = 0; i < data.items.length; i++) {
+
+                        html += "<img bookid=\"" + data.items[i].id + "\" class=\"bookonshelf\" src=\"" + data.items[i].volumeInfo.imageLinks.thumbnail + "\"/>"
+                    }
+                    $("#mybookshelf").empty();
+                    $("#mybookshelf").append(html);
+                    $("#mybookshelf").show();
+                    $("#googleImage").hide();
+                    $("input#searchbox").hide();
+                    $("input#searchbox").hide();
+                    $("#searchclick").hide();
+                    $("#createBookShelfbutton").hide();
+                    $("#back").show();
+
+
+
+                });
+            });
+
+
+
+            function details(id) {
+
+                let url = "https://www.googleapis.com/books/v1/volumes/" + id;
+
+                $("#innerModal").empty();
+                $.getJSON(url, function(data) {
+                  console.log(data);
+
+                  var sale = function() {
+                    if(data.saleInfo.saleability === "FOR_SALE") {
+                      price = data.saleInfo.listPrice.amount + " " + data.saleInfo.listPrice.currencyCode;
+                    } else {
+                      price = "Not For Sale";
+                    }
+                    return price;
+                  }
+
+
+                    $("#innerModal").append("<img class=\"floated\" src=\"" + data.volumeInfo.imageLinks["medium"] + "\" alt=\"\">" +
+                        "<div class=\"container\"><h2>" + data.volumeInfo.title + "</h2>" +
+                        "<h4>" + data.volumeInfo.subtitle + "</h4>" +
+                        "<p class=\"floatright\"> <p> Author: " + data.volumeInfo.authors[0] + "</p>" +
+                        "<p> ISBN-10: " + data.volumeInfo.industryIdentifiers[0]["identifier"] + "</p>" +
+                        "<p> ISBN-13: " + data.volumeInfo.industryIdentifiers[1]["identifier"] + "</p>" +
+                        "<a href=\"" + data.volumeInfo.previewLink + "\"> Preview This Book Here</a>" +
+                        "<p> Price: " + sale()  + "</p>" +
+                        "<p> Page Count: " + data.volumeInfo.pageCount + "</p>" +
+                        "<p> Date Published: " + data.volumeInfo.publishedDate + "</p>" +
+                        "<p> Publisher: " + data.volumeInfo.publisher + "</p></p></div>");
+
+                    $("#myModal").show();
+
+                });
+
+            }
+
+
+            //url input is the search URL with the user input
+            //page is a string that is used as a class name to toggle the display css property
+            function displayResults(urlInput, page) {
+                // if(page === "page1")// hide this css class .page1 display: nond
+                $.getJSON(urlInput, (data) => {
+                    var json = data;
+                    //create lists elements
+                    for (let i = 0; i < data.items.length; i++) {
+                        $('.booksContainer').append('<div class=\"bookdiv ' + page + '\">' +
+                            '<a ><h2>' + json.items[i].volumeInfo.title + '</h2></a>' +
+                            '<img bookid=\"' + json.items[i].id + '\" src=\"' + json.items[i].volumeInfo.imageLinks.thumbnail + '\">' +
+                            '</div>');
+                    }
+                });
+            }
+
+
+            $('#searchclick').click(function() {
+                let input = $("#searchbox").val();
+                let url = "https://www.googleapis.com/books/v1/volumes?q=search+";
+                let urlInput = url + input;
+                let search1 = "&startIndex=0&maxResults=10";
+                let search2 = "&startIndex=10&maxResults=10";
+                let search3 = "&startIndex=20&maxResults=10";
+                let search4 = "&startIndex=30&maxResults=10";
+                let search5 = "&startIndex=40&maxResults=10";
+
+                displayResults(urlInput + search1, "page1");
+                displayResults(urlInput + search2, "page2");
+                displayResults(urlInput + search3, "page3");
+                displayResults(urlInput + search4, "page4");
+                displayResults(urlInput + search5, "page5");
+
+                $('#googleImage').hide();
+                $('#searchbox').hide();
+                $('#searchclick').hide();
+                $('html').toggleClass('noscroll');
+                $('.buttonBox').show();
+                $(".booksContainer").show()
+                $("#back").show();
+                $("#createBookShelfbutton").hide();
+
+
+
+            });
+
+
+
+            $("#myBtn").click(function() {
+                $("#myModal").show();
+            });
+
+
+            $(".close").click(function() {
+                $("#myModal").hide();
+                $()
+            });
+
+
+
+            $(document).on('click', 'img', function() {
+                details($(this).attr('bookid'));
+
+            });
+
+
+            $(document).on('click', '#page1', function() {
+
+                $('.page2').hide();
+                $('.page3').hide();
+                $('.page4').hide();
+                $('.page5').hide();
+                $('.page1').show();
+            });
+
+            $('.buttonBox').hide();
+
+            $(document).on('click', '#page2', function() {
+
+                $('.page1').hide();
+                $('.page3').hide();
+                $('.page4').hide();
+                $('.page5').hide();
+                $('.page2').show();
+            });
+
+            $(document).on('click', '#page3', function() {
+
+                $('.page1').hide();
+                $('.page2').hide();
+                $('.page4').hide();
+                $('.page5').hide();
+                $('.page3').show();
+            });
+
+            $(document).on('click', '#page4', function() {
+
+                $('.page1').hide();
+                $('.page2').hide();
+                $('.page3').hide();
+                $('.page5').hide();
+                $('.page4').show();
+            });
+
+            $(document).on('click', '#page5', function() {
+
+                $('.page1').hide();
+                $('.page2').hide();
+                $('.page3').hide();
+                $('.page4').hide();
+                $('.page5').show();
+            });
+
+
+
+
+
+            $(window).click(function(event) {
+                var modal = document.getElementById('myModal');
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
