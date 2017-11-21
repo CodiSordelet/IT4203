@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Google Books Search</title>
+    <link rel="stylesheet" href="./search.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="banner">
+        <h1 id="page-text">Milestone 4</h1>
+
+    </div>
+
+    <div class="buttonBox">
+        <button class="purty" id="page1" type="button">1</button>
+        <button class="purty" id="page2" type="button">2</button>
+        <button class="purty" id="page3" type="button">3</button>
+        <button class="purty" id="page4" type="button">4</button>
+        <button class="purty" id="page5" type="button">5</button>
+        <i id="btnGrid" class="fa fa-th" aria-hidden="true"></i>
+        <i id="btnList" class="fa fa-list" aria-hidden="true"></i>
+    </div>
+
+    <img id="googleImage" src="http://kinlane-productions.s3.amazonaws.com/api-evangelist-site/company/logos/Screen%20Shot%202017-03-16%20at%204.28.26%20PM.png" class="centered" alt="">
+
+    <div class="container">
+        <div id="mybookshelf"></div>
+        <input id="searchbox" type="text" name="search" value="" placeholder="">
+        <button id="searchclick" type="buttton">Search</button>
+        <button id="back" type="button" name="button" id="">Go Back To Search</button>
+        <button class="purty" type="button" name="bookshelfactivator" id="createBookShelfbutton">View My Bookshelf</button>
+    </div>
+
+    <div id="bookInsert" class="booksContainer">
+    </div>
+
+    <script id="template" type="text/template">
+        {{#items}}
+        <div class="bookdiv {{action}}">
+            <a href="{{volumeInfo.infoLink}}"><h1>{{volumeInfo.title}}</h1></a>
+            <a href="{{volumeInfo.infoLink}}"><img src="{{volumeInfo.imageLinks.smallThumbnail}}"></a>
+            <button data-trigger="view-more" data-index="{{divId}}" id="{{divId}}" aria-hidden="true">View More</button>
+            <div data-tog="{{divId}}" id "={{id}}" class="details">
+                <p>Authors: {{volumeInfo.authors}}</p>
+                <p>Page Count:{{volumeInfo.pageCount}}</p>
+                <p>{{volumeInfo.authors}}</p>
+                <p>{{price}}</p>
+                <p>Publisher: {{volumeInfo.publisher}}</p>
+                <p>Description: {{volumeInfo.description}}</p>
+                <p>Categories: {{volumeInfo.categories}}</p>
+            </div>
+        </div>
+        {{/items}}
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+            $(document).on('click', '[data-trigger="view-more"]', function(evt) {
+                var index = $(this).data("index");
+
+                $('div[data-tog=' + index + ']').toggle();
+                var dataIndex = $('[data-index=' + index + ']');
+                var temp = $('div').find(dataIndex);
+                if (temp[0].innerHTML === 'View More') {
+                    temp[0].innerHTML = 'Close';
+                } else if (temp[0].innerHTML === 'Close') {
+                    temp[0].innerHTML = 'View More';
+                }
+            });
+
+            $(".buttonBox").hide();
+            $("#back").hide();
+
+
+            $("#btnGrid").click(function() {
+                $(".bookdiv").css("width", "24%").css("height", "auto");
+                $("#bookInsert").attr("data-layout", "Grid");
+            });
+
+            $("#btnList").click(function() {
+                $(".bookdiv").css("width", "99%").css("height", "auto");
+                $("#bookInsert").attr("data-layout", "List");
+
+            });
+
+
+            var input = "";
+            var urlInput = "";
+
+            $("#back").click(function() {
+                $("#page-text").html("Milestone 4 - Search Page");
+                $("#mybookshelf").hide();
+                $("#googleImage").show();
+                $("input#searchbox").show();
+                $("input#searchbox").show();
+                $("#searchclick").show();
+                $(".purty").show();
+                //buttonBox booksContainer
+                $(".booksContainer").hide();
+                $(".buttonBox").hide();
+                $("#createBookShelfbutton").show();
+                $("#back").hide();
+
+            });
+
+            var getBooks = function(url) {
+                $.getJSON(url, function(data) {
+                    //whats going on?
+                    if (data.saleInfo && data.saleInfo.saleability == "NOT_FOR_SALE") {
+                        data.saleInfo["listPrice"]["amount"] = "not for sale";
+                    } else if (data.saleInfo) {
+                        if (data.items.saleInfo.listPrice)
+                            if (data.saleInfo.listPrice.amount)
+                                books.items["price"] = data.items.saleInfo["listPrice"]["amount"];
+
+                    }
+
+                    var books = data;
+
+                    //create new div id
+                    for (var i = 0; i < books.items.length; i++) {
+                        books.items[i]["divId"] = i;
+
+
+                    }
+
+                    var template = $("#template").html();
+                    Mustache.parse(template);
+                    var html = Mustache.render(template, books);
+                    $("#bookInsert").html(html);
+                });
+            };
+
+
+
+
+
+            $('#searchclick').click(function() {
+                input = $("#searchbox").val();
+                $("#page-text").html("Milestone 4 - Results");
+                let url = "https://www.googleapis.com/books/v1/volumes?q=search+";
+                urlInput = url + input;
+                let search1 = "&startIndex=0&maxResults=10";
+                let search2 = "&startIndex=10&maxResults=10";
+                let search3 = "&startIndex=20&maxResults=10";
+                let search4 = "&startIndex=30&maxResults=10";
+                let search5 = "&startIndex=40&maxResults=10";
+
+                getBooks(urlInput + search1, "page1");
+
+                $('#googleImage').hide();
+                $('#searchbox').hide();
+                $('#searchclick').hide();
+                $('html').toggleClass('noscroll');
+                $('.buttonBox').show();
+                $(".booksContainer").show()
+                $("#back").show();
+                $("#createBookShelfbutton").hide();
+                $(".page1").show();
+
+            });
+
+            $(document).on('click', '#page1', function() {
+                let search1 = "&startIndex=0&maxResults=10";
+
+                $("#bookInsert").empty()
+                getBooks(urlInput + search1, "page1");
+
+                $('.page2').hide();
+                $('.page3').hide();
+                $('.page4').hide();
+                $('.page5').hide();
+                $('.page1').show();
+            });
+
+
+
+            $(document).on('click', '#page2', function() {
+                let search2 = "&startIndex=10&maxResults=10";
+
+                $("#bookInsert").empty()
+                getBooks(urlInput + search2, "page2");
+
+                $('.page1').hide();
+                $('.page3').hide();
+                $('.page4').hide();
+                $('.page5').hide();
+                $('.page2').show();
+
+            });
+
+            $(document).on('click', '#page3', function() {
+                let search3 = "&startIndex=20&maxResults=10";
+
+                getBooks(urlInput + search3, "page3");
+
+
+                $('.page1').hide();
+                $('.page2').hide();
+                $('.page4').hide();
+                $('.page5').hide();
+                $('.page3').show();
+            });
+
+            $(document).on('click', '#page4', function() {
+
+                let search4 = "&startIndex=30&maxResults=10";
+
+                getBooks(urlInput + search4, "page4");
+
+                $('.page1').hide();
+                $('.page2').hide();
+                $('.page3').hide();
+                $('.page5').hide();
+                $('.page4').show();
+            });
+
+            $(document).on('click', '#page5', function() {
+                let search4 = "&startIndex=40&maxResults=10";
+                getBooks(urlInput + search4, "page5");
+
+                $('.page1').hide();
+                $('.page2').hide();
+                $('.page3').hide();
+                $('.page4').hide();
+                $('.page5').show();
+            });
+
+            $("#createBookShelfbutton").click(function() {
+
+                    $("#bookInsert").empty();
+                    $("#googleImage").hide();
+                    $("input#searchbox").hide();
+                    $("#searchclick").hide();
+                    $(".booksContainer").show();
+                    $(".buttonBox").show();
+                    $(".purty").hide();
+                    $(".buttonBox").css("left","48%");
+                    $("#createBookShelfbutton").hide();
+                    $("#back").show();
+                    $("#page-text").html("Milestone 4 - My Bookshelf");
+                    let link = "https://www.googleapis.com/books/v1/users/114745723588033378738/bookshelves/0/volumes";
+                    getBooks(link);
+
+            });
+        });
+    </script>
+</body>
+
+</html>
