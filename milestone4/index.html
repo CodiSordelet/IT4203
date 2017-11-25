@@ -47,7 +47,7 @@
                 <p>Authors: {{volumeInfo.authors}}</p>
                 <p>Page Count:{{volumeInfo.pageCount}}</p>
                 <p>{{volumeInfo.authors}}</p>
-                <p>{{price}}</p>
+                <p>Price: {{price}}</p>
                 <p>Publisher: {{volumeInfo.publisher}}</p>
                 <p>Description: {{volumeInfo.description}}</p>
                 <p>Categories: {{volumeInfo.categories}}</p>
@@ -113,14 +113,17 @@
             var getBooks = function(url) {
                 $.getJSON(url, function(data) {
                     //whats going on?
-                    if (data.saleInfo && data.saleInfo.saleability == "NOT_FOR_SALE") {
-                        data.saleInfo["listPrice"]["amount"] = "not for sale";
-                    } else if (data.saleInfo) {
-                        if (data.items.saleInfo.listPrice)
-                            if (data.saleInfo.listPrice.amount)
-                                books.items["price"] = data.items.saleInfo["listPrice"]["amount"];
-
+                    for(var i = 0; i < data.items.length; i++){
+                    if (data.items[i].saleInfo && data.items[i].saleInfo.saleability == "NOT_FOR_SALE") {
+                        data.items[i]["price"] = "not for sale";
+                    } else if (data.items[i].saleInfo) {
+                        if (data.items[i].saleInfo.listPrice){
+                          if (data.items[i].saleInfo.listPrice.amount) {
+                            data.items[i]["price"] = "$" + data.items[i].saleInfo["listPrice"]["amount"];
+                          }
+                        }
                     }
+                  }
 
                     var books = data;
 
