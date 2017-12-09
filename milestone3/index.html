@@ -11,6 +11,9 @@
 </head>
 
 <body>
+  <form action="../">
+    <button class="homeButton purty" >Home</button>
+  </form>
 
     <div class="buttonBox">
         <button class="purty" id="page1" type="button">1</button>
@@ -25,7 +28,7 @@
         <div id="mybookshelf"></div>
         <input id="searchbox" type="text" name="search" value="" placeholder="">
         <button id="searchclick" type="buttton">Search</button>
-        <button id="back" type="button" name="button" id="">Go Back To Search</button>
+        <button id="back" class="purty" type="button" name="button" >Go Back To Search</button>
         <button class="purty" type="button" name="bookshelfactivator" id="createBookShelfbutton">View My Bookshelf</button>
 
 
@@ -102,7 +105,7 @@
 
                 $("#innerModal").empty();
                 $.getJSON(url, function(data) {
-                  
+
                   var sale = function() {
                     var price = "";
                     if(data.saleInfo.saleability === "FOR_SALE") {
